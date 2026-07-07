@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Отсек 01 · Device Rental Service — RES SPACE</title>
+  <meta name="description" content="Device Rental Service — сервис аренды игровых устройств для ПК-клуба Res Space. Vue 3 + чистый Node.js + Electron + Telegram-бот + SmartShell GraphQL. ~5800 строк, 141 файл." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-logo">RES SPACE</span>
+        <span class="brand-sub">Бортовой журнал систем</span>
+      </a>
+      <nav class="topnav">
+        <a href="index.html">Реестр</a>
+        <a href="index.html#eco">Экосистема</a>
+        <a href="device-rental.html">Отсеки</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══ ЗАГОЛОВОК ОТСЕКА ═══ -->
+  <section class="phero">
+    <div class="wrap">
+      <div class="crumb">
+        <a href="index.html">Реестр</a> <span>/</span> <span>Отсек 01</span>
+      </div>
+      <div class="phero-code">Отсек [ 01 ] · В работе · Флагманская система</div>
+      <h1>Device Rental Service</h1>
+      <p class="phero-lead">
+        Сервис аренды игровых девайсов для гостей клуба. Гость выбирает мышь, клавиатуру или
+        гарнитуру на своём столе, инженер выдаёт через Telegram-бота, склад пересчитывается сам,
+        а игровые сессии сверяются со SmartShell — чтобы устройство не «уехало» вместе с ушедшим гостем.
+      </p>
+      <div class="spec-row">
+        <div class="spec-cell"><div class="spec-num mono-num">~5 800</div><div class="spec-label">строк кода</div></div>
+        <div class="spec-cell"><div class="spec-num mono-num">141</div><div class="spec-label">файл</div></div>
+        <div class="spec-cell"><div class="spec-num mono-num">5</div><div class="spec-label">подсистем</div></div>
+        <div class="spec-cell"><div class="spec-num mono-num">2 нед.</div><div class="spec-label">один разработчик</div></div>
+      </div>
+      <div class="stack-inline">
+        <span class="chip key">Vue 3</span><span class="chip">Vite</span>
+        <span class="chip">Node.js без фреймворка</span><span class="chip">Electron</span>
+        <span class="chip">Telegram Bot API</span><span class="chip">SmartShell GraphQL</span>
+        <span class="chip">SSE</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ЗАДАЧА ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Задача ]</span>
+        <h2>Что нужно было решить</h2>
+      </div>
+      <div class="task-grid reveal">
+        <div class="task-body">
+          <p>
+            В клубе есть парк сменных девайсов — мыши, клавиатуры, гарнитуры, кабели, повербанки.
+            До сервиса их выдача держалась на памяти смены: кто взял, на какой ПК, вернул ли.
+            Устройства терялись, а гость ждал, пока свободный инженер добежит до склада.
+          </p>
+          <p>
+            Нужна была система, где <b>гость сам оформляет заявку</b> со своего ПК, <b>инженер
+            выдаёт в пару нажатий</b> прямо в Telegram, а <b>остаток на складе всегда сходится</b> —
+            без ручного пересчёта и «минус одной мыши» в конце смены.
+          </p>
+          <p>
+            Отдельное требование — привязка к SmartShell: если игровая сессия гостя закончилась,
+            а устройство за ним ещё числится, инженер должен узнать об этом сразу.
+          </p>
+        </div>
+        <div class="task-aside">
+          <div class="task-aside-row"><span class="k">Площадка</span><span class="v">Res Space, СПб</span></div>
+          <div class="task-aside-row"><span class="k">Пользователи</span><span class="v">Гости + инженеры</span></div>
+          <div class="task-aside-row"><span class="k">Парк ПК</span><span class="v">66 + PS5</span></div>
+          <div class="task-aside-row"><span class="k">Статус</span><span class="v">В проде</span></div>
+          <div class="task-aside-row"><span class="k">Репозиторий</span><span class="v">Device_rental_service</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ОБЗОРНЫЙ ЭКРАН ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Интерфейс · экран 01 ]</span>
+        <h2>Каталог глазами гостя</h2>
+        <p>Гость открывает каталог на своём ПК, набирает устройства в корзину и оформляет заявку с привязкой к своему столу.</p>
+      </div>
+      <div class="shots wide reveal">
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <div class="shot-ph-badge">Экран 01</div>
+              <div class="shot-ph-label">Главный каталог устройств — витрина с категориями и остатком на складе</div>
+              <code>assets/device-rental/01-catalog.png</code>
+            </div>
+            <img data-src="assets/device-rental/01-catalog.png" alt="Каталог устройств" />
+          </div>
+          <figcaption><span class="idx">[ 01 ]</span><b>Каталог.</b> Карточки устройств с фото, характеристиками и живым остатком. Гость видит только то, что реально доступно на складе прямо сейчас.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ПОЧЕМУ БЫЛО СЛОЖНО ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Инженерный разбор ]</span>
+        <h2>Чем эта система была сложна</h2>
+        <p>Снаружи — «форма заявки». Внутри — пять несвязанных сред, которые должны видеть одно и то же состояние склада в реальном времени.</p>
+      </div>
+      <div class="challenges">
+        <div class="challenge reveal">
+          <div class="challenge-hd"><span class="challenge-n">[ 01 ]</span><h3>Бэкенд без фреймворка</h3></div>
+          <p>Сервер написан на голом <b>http</b>-модуле Node.js — без Express и роутеров. Пришлось руками разбирать методы и пути, парсить тело запросов, отдавать статику Vite-сборки и держать REST API в одном процессе.</p>
+          <div class="challenge-sol"><span class="lbl">Решение</span>Собственный минималистичный роутинг-слой и вынос логики в <b>api/handlers.js</b> — предсказуемо, без «магии» и лишних зависимостей.</div>
+        </div>
+        <div class="challenge reveal">
+          <div class="challenge-hd"><span class="challenge-n">[ 02 ]</span><h3>Остаток обязан сходиться</h3></div>
+          <p>Заявка, выдача через бота, возврат, отмена, авто-возврат по концу сессии — все меняют один и тот же остаток. Гонки и двойные списания дают «минус одну мышь» или фантомный дефицит.</p>
+          <div class="challenge-sol"><span class="lbl">Решение</span>Единый источник правды по каждому устройству и <b>атомарное изменение остатка</b> на каждое событие жизненного цикла заявки.</div>
+        </div>
+        <div class="challenge reveal">
+          <div class="challenge-hd"><span class="challenge-n">[ 03 ]</span><h3>Real-time без WebSocket-стека</h3></div>
+          <p>Админ-панель должна показывать новые заявки и смену статусов мгновенно, но поднимать полноценный WS-сервер поверх голого Node было бы избыточно.</p>
+          <div class="challenge-sol"><span class="lbl">Решение</span><b>Server-Sent Events</b> — однонаправленный поток событий держит админку актуальной без опроса и без тяжёлого WS-слоя.</div>
+        </div>
+        <div class="challenge reveal">
+          <div class="challenge-hd"><span class="challenge-n">[ 04 ]</span><h3>Интеграция со SmartShell</h3></div>
+          <p>Чтобы ловить «гость ушёл, а гарнитуру не сдал», сервис опрашивает биллинг SmartShell по GraphQL. Токен живёт недолго и его нужно молча обновлять, иначе поллинг падает среди ночи.</p>
+          <div class="challenge-sol"><span class="lbl">Решение</span>Клиент с авторизацией по login-мутации и <b>автоматическим refresh-token</b>; сессия закрылась без возврата — алерт инженеру.</div>
+        </div>
+        <div class="challenge reveal">
+          <div class="challenge-hd"><span class="challenge-n">[ 05 ]</span><h3>Одна логика — три оболочки</h3></div>
+          <p>Один и тот же фронтенд должен работать в браузере гостя, в режиме киоска и как десктоп-приложение Electron — без развилок и трёх разных кодовых баз.</p>
+          <div class="challenge-sol"><span class="lbl">Решение</span>Единая <b>Vue 3 + Vite</b> сборка, поверх которой тонкая Electron-обёртка — десктоп получает нативное окно, не дублируя UI.</div>
+        </div>
+        <div class="challenge reveal">
+          <div class="challenge-hd"><span class="challenge-n">[ 06 ]</span><h3>Деплой без простоя</h3></div>
+          <p>Сервис крутится на реальном сервере клуба и обновляется в рабочие дни. Ручной деплой на таком проекте — это регрессии в прод по пятницам.</p>
+          <div class="challenge-sol"><span class="lbl">Решение</span>Контейнеризация в <b>Docker</b> и пайплайн <b>GitHub Actions</b>; выкладка скриптом deploy.sh, состояние переживает пересборку образа.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ГОСТЕВОЙ СЦЕНАРИЙ ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Интерфейс · экраны 02–04 ]</span>
+        <h2>Путь заявки — от корзины до подтверждения</h2>
+        <p>Три экрана, которые проходит гость.</p>
+      </div>
+      <div class="shots three reveal">
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <div class="shot-ph-badge">Экран 02</div>
+              <div class="shot-ph-label">Корзина с выбранными устройствами</div>
+              <code>assets/device-rental/02-cart.png</code>
+            </div>
+            <img data-src="assets/device-rental/02-cart.png" alt="Корзина" />
+          </div>
+          <figcaption><span class="idx">[ 02 ]</span><b>Корзина.</b> Набор устройств и количество перед оформлением.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <div class="shot-ph-badge">Экран 03</div>
+              <div class="shot-ph-label">Карточка устройства с характеристиками</div>
+              <code>assets/device-rental/03-device.png</code>
+            </div>
+            <img data-src="assets/device-rental/03-device.png" alt="Карточка устройства" />
+          </div>
+          <figcaption><span class="idx">[ 03 ]</span><b>Карточка устройства.</b> Фото, описание, остаток на складе.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <div class="shot-ph-badge">Экран 04</div>
+              <div class="shot-ph-label">Подтверждение заявки с номером ПК</div>
+              <code>assets/device-rental/04-confirm.png</code>
+            </div>
+            <img data-src="assets/device-rental/04-confirm.png" alt="Подтверждение заявки" />
+          </div>
+          <figcaption><span class="idx">[ 04 ]</span><b>Подтверждение.</b> Заявка привязана к конкретному столу клуба.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TELEGRAM-БОТ ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Инженер · экраны 05–06 ]</span>
+        <h2>Выдача и возврат через Telegram-бота</h2>
+        <p>Инженер не открывает отдельное приложение — вся работа идёт инлайн-кнопками в привычном боте.</p>
+      </div>
+      <div class="shots reveal">
+        <figure class="shot">
+          <div class="shot-frame phone">
+            <div class="shot-ph">
+              <div class="shot-ph-badge">Экран 05</div>
+              <div class="shot-ph-label">Уведомление о новой заявке в боте — номер ПК и список устройств</div>
+              <code>assets/device-rental/05-bot-order.png</code>
+            </div>
+            <img data-src="assets/device-rental/05-bot-order.png" alt="Заявка в Telegram-боте" />
+          </div>
+          <figcaption><span class="idx">[ 05 ]</span><b>Новая заявка.</b> Приходит инженеру с номером ПК и кнопками «Выдано» / «Вернул».</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame phone">
+            <div class="shot-ph">
+              <div class="shot-ph-badge">Экран 06</div>
+              <div class="shot-ph-label">Алерт: сессия SmartShell завершилась, устройство не возвращено</div>
+              <code>assets/device-rental/06-bot-alert.png</code>
+            </div>
+            <img data-src="assets/device-rental/06-bot-alert.png" alt="Алерт о невозврате" />
+          </div>
+          <figcaption><span class="idx">[ 06 ]</span><b>Алерт по SmartShell.</b> Гость ушёл, а устройство числится за ним — бот сразу предупреждает.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ АДМИНКА ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Администрирование · экраны 07–08 ]</span>
+        <h2>Админ-панель: статистика, история, экспорт</h2>
+        <p>Все заказы, топ устройств, история по каждому ПК и выгрузка в CSV — за паролем, отдельно от гостевого каталога.</p>
+      </div>
+      <div class="shots reveal">
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <div class="shot-ph-badge">Экран 07</div>
+              <div class="shot-ph-label">Дашборд админки со статистикой и SSE-обновлениями</div>
+              <code>assets/device-rental/07-admin-dashboard.png</code>
+            </div>
+            <img data-src="assets/device-rental/07-admin-dashboard.png" alt="Дашборд админки" />
+          </div>
+          <figcaption><span class="idx">[ 07 ]</span><b>Дашборд.</b> Активные заявки и статистика обновляются в реальном времени через SSE.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <div class="shot-ph-badge">Экран 08</div>
+              <div class="shot-ph-label">Список заказов / история с фильтрами и экспортом в CSV</div>
+              <code>assets/device-rental/08-admin-orders.png</code>
+            </div>
+            <img data-src="assets/device-rental/08-admin-orders.png" alt="История заказов" />
+          </div>
+          <figcaption><span class="idx">[ 08 ]</span><b>Заказы и история.</b> Полный журнал выдач и возвратов, выгрузка в CSV в один клик.</figcaption>
+        </figure>
+      </div>
+      <div class="note reveal">
+        <span class="k">Скрины</span>
+        <p><b>Как добавить:</b> положи PNG-файлы в папку <b>assets/device-rental/</b> с именами, которые подписаны на каждом плейсхолдере (например 01-catalog.png). Страница подхватит их сама — плейсхолдер исчезнет.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ СТЕК ═══ -->
+  <div class="block">
+    <div class="wrap wrap-narrow">
+      <div class="block-head reveal">
+        <span class="tag">[ Стек и подходы ]</span>
+        <h2>На чём собрано</h2>
+      </div>
+      <div class="spectable reveal">
+        <div class="spectable-tr"><div class="spectable-k">Фронтенд</div><div class="spectable-v"><b>Vue 3 + Vite.</b> Каталог, корзина, админ-панель. Реактивное состояние склада, компонентная витрина устройств.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Бэкенд</div><div class="spectable-v"><b>Чистый Node.js</b> без фреймворков. Собственный HTTP-роутинг, REST API, отдача статики, JSON-хранилище.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Десктоп</div><div class="spectable-v"><b>Electron.</b> Тонкая обёртка над той же Vue-сборкой — нативное окно без дублирования UI.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Бот</div><div class="spectable-v"><b>Telegram Bot API.</b> Выдача/возврат устройств инлайн-кнопками, уведомления о заявках, алерты.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Интеграция</div><div class="spectable-v"><b>SmartShell GraphQL.</b> Мониторинг игровых сессий, авторизация + refresh-token, алерты при завершении сессии без возврата.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Real-time</div><div class="spectable-v"><b>Server-Sent Events.</b> Живые обновления заявок и статистики в админке без опроса.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Инфраструктура</div><div class="spectable-v"><b>Docker + GitHub Actions.</b> Контейнеризация, CI/CD, деплой на живой сервер клуба скриптом.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ОЦЕНКА ═══ -->
+  <div class="block">
+    <div class="wrap wrap-narrow">
+      <div class="block-head reveal">
+        <span class="tag">[ Оценка трудозатрат ]</span>
+        <h2>Сколько это стоит на рынке</h2>
+        <p>Ориентир для одного разработчика за 2 недели (80 часов) с учётом всех пяти подсистем.</p>
+      </div>
+      <table class="est reveal">
+        <thead>
+          <tr><th>Уровень</th><th>Ставка</th><th>2 недели (80 ч)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Junior / фриланс</td><td class="mono-num">$15/ч</td><td class="mono-num">$1 400–1 600 · ~112–128 тыс. ₽</td></tr>
+          <tr class="hi"><td>Middle</td><td class="mono-num">$25/ч</td><td class="mono-num">$2 500–3 000 · ~200–240 тыс. ₽</td></tr>
+          <tr><td>Senior</td><td class="mono-num">$40/ч</td><td class="mono-num">$3 500–4 000 · ~280–320 тыс. ₽</td></tr>
+        </tbody>
+      </table>
+      <p class="est-note">Реалистичный ориентир — $2 500–3 000 (200–240 тыс. ₽). В нормальных условиях (с тестированием, документацией и поддержкой) — выше в 2–3×. Указанная сумма отражает сжатые сроки и одного исполнителя.</p>
+    </div>
+  </div>
+
+  <!-- ═══ ПЕРЕХОД ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="pager">
+        <a href="index.html"><div class="dir">← Назад</div><div class="nm">Реестр модулей</div></a>
+        <a href="cs-manager.html"><div class="dir">Отсек 02 →</div><div class="nm">CS Server Manager</div></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ФУТЕР ═══ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <span class="brand-logo">RES SPACE</span>
+          <p>Внутренняя документация систем. Материал подготовлен для технической презентации.</p>
+        </div>
+        <div class="foot-col">
+          <h4>[ Отсеки ]</h4>
+          <a href="device-rental.html">01 · Device Rental</a>
+          <a href="cs-manager.html">02 · CS Server Manager</a>
+          <a href="booking-notifier.html">03 · Booking Notifier</a>
+          <a href="reviews-bot.html">04 · Reviews Aggregator</a>
+        </div>
+        <div class="foot-col">
+          <h4>[ Борт ]</h4>
+          <span>ПК-клуб · лаунж · бар</span>
+          <span>Санкт-Петербург</span>
+          <span>наб. реки Мойки, 60В</span>
+        </div>
+      </div>
+      <div class="foot-coord">
+        <span>Координаты станции · 59.931039, 30.314871</span>
+        <span>Ред. 07.2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

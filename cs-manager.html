@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RES SPACE — Отсек 02 · CS Server Manager</title>
+  <meta name="description" content="CS Server Manager — десктоп-пульт управления dedicated-серверами CS2: RCON поверх TCP, мониторинг процессов, живые логи, плагины и установка Metamod. Electron + Vue 3 + Ant Design + ECharts. ~7600 строк." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <a class="brand-logo" href="index.html">RES SPACE</a>
+        <span class="brand-sub">Бортовой журнал систем</span>
+      </div>
+      <nav class="topnav">
+        <a href="index.html#registry">Реестр</a>
+        <a href="index.html#eco">Экосистема</a>
+        <a href="index.html">На борт</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══ ЗАГОЛОВОК ОТСЕКА ═══ -->
+  <section class="phero">
+    <div class="wrap">
+      <div class="crumb">
+        <a href="index.html">Реестр</a> <span>/</span> <span>Отсек 02</span>
+      </div>
+      <div class="phero-code">Отсек [ 02 ] · Пульт CS2-серверов · В работе</div>
+      <h1>CS Server Manager</h1>
+      <p class="phero-lead">
+        Настольный пульт над штатными dedicated-серверами CS2 клуба: создание и запуск серверов,
+        управление игроками по RCON, живые логи консоли, установка плагинов и Metamod — всё из
+        одного окна, без ручного правления конфигов и командной строки.
+      </p>
+
+      <div class="spec-row">
+        <div class="spec-cell"><div class="spec-num mono-num">7 600</div><div class="spec-label">строк кода</div></div>
+        <div class="spec-cell"><div class="spec-num mono-num">18</div><div class="spec-label">файлов</div></div>
+        <div class="spec-cell"><div class="spec-num mono-num">800+</div><div class="spec-label">строк CSS UI</div></div>
+        <div class="spec-cell"><div class="spec-num">RCON</div><div class="spec-label">протокол</div></div>
+      </div>
+      <div class="stack-inline">
+        <span class="chip key">Electron</span>
+        <span class="chip key">Vue 3</span>
+        <span class="chip">Ant Design Vue 4</span>
+        <span class="chip">RCON / TCP</span>
+        <span class="chip">ECharts</span>
+        <span class="chip">Node child_process</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ЗАДАЧА ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Задача ]</span>
+        <h2>Зачем это нужно</h2>
+      </div>
+      <div class="task-grid reveal">
+        <div class="task-body">
+          <p>
+            В клубе крутится несколько CS2-серверов под тренировки, турниры и обычные катки. Их
+            приходится <b>поднимать, гасить и перенастраивать вручную</b> — через командную строку,
+            правку конфигов и RCON-команды на память. Это медленно и требует человека, который
+            помнит все аргументы запуска.
+          </p>
+          <p>
+            Задача — свести всё управление в одно приложение. Чтобы администратор смены
+            <b>запускал сервер кнопкой</b>, видел кто на нём играет, кикал нарушителей, читал логи
+            и ставил плагины <b>без терминала</b> и без риска сломать рабочий конфиг.
+          </p>
+          <p>
+            Осознанное решение: <b>не оборачивать серверы в Docker</b>, а строить надстройку над
+            штатным dedicated-сервером Valve. Так проще обновлять игру и разбираться, когда
+            что-то ломается на живом турнире.
+          </p>
+        </div>
+        <div class="task-aside">
+          <div class="task-aside-row"><span class="k">Тип</span><span class="v">Desktop-приложение</span></div>
+          <div class="task-aside-row"><span class="k">Платформа</span><span class="v">Windows / Linux</span></div>
+          <div class="task-aside-row"><span class="k">Оболочка</span><span class="v">Electron</span></div>
+          <div class="task-aside-row"><span class="k">Управление</span><span class="v">RCON + процессы</span></div>
+          <div class="task-aside-row"><span class="k">Хранение</span><span class="v">JSON в ~/.cssm/</span></div>
+          <div class="task-aside-row"><span class="k">Статус</span><span class="v">В работе</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ОБЗОРНЫЙ ЭКРАН ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Общий вид ]</span>
+        <h2>Как выглядит пульт</h2>
+        <p>Кастомный frameless-интерфейс в тёмной теме: свой заголовок окна, карточки серверов и график статистики.</p>
+      </div>
+      <div class="shots wide reveal">
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 01</span>
+              <div class="shot-ph-label">Главный дашборд: карточки серверов + ECharts-график</div>
+              <code>assets/cs-manager/01-dashboard.png</code>
+            </div>
+            <img data-src="assets/cs-manager/01-dashboard.png" alt="Дашборд CS Manager" />
+          </div>
+          <figcaption><span class="idx">[ 01 ]</span><b>Дашборд.</b> Серверы со статусом, кнопки запуска/остановки и график нагрузки на ECharts.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ПОЧЕМУ СЛОЖНО ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Инженерный разбор ]</span>
+        <h2>Чем задача была сложна</h2>
+        <p>Это не обёртка над готовым API, а прямое управление процессами игрового сервера, сетевым протоколом и файловой системой плагинов.</p>
+      </div>
+      <div class="challenges reveal">
+        <div class="challenge">
+          <div class="challenge-hd"><span class="challenge-n">[ 01 ]</span><h3>Своя реализация RCON поверх TCP</h3></div>
+          <p>Управление сервером идёт по протоколу RCON: установить TCP-соединение, аутентифицироваться, слать команды и разбирать бинарные пакеты ответа — статус, список игроков, результат кика.</p>
+          <div class="challenge-sol"><span class="lbl">Как решено</span>TCP-клиент с парсингом RCON-пакетов, командами статуса и <b>кика игроков и ботов</b> прямо из интерфейса.</div>
+        </div>
+        <div class="challenge">
+          <div class="challenge-hd"><span class="challenge-n">[ 02 ]</span><h3>Запуск и контроль процесса cs2</h3></div>
+          <p>Сервер поднимается через spawn исполняемого файла с набором аргументов, а его жизнь надо отслеживать: жив ли процесс, не упал ли. Кроссплатформенно — через tasklist и kill -0.</p>
+          <div class="challenge-sol"><span class="lbl">Как решено</span>Мониторинг процессов с <b>опросом каждые 5 секунд</b> и авто-обновлением статуса каждой карточки сервера.</div>
+        </div>
+        <div class="challenge">
+          <div class="challenge-hd"><span class="challenge-n">[ 03 ]</span><h3>Чтение консоли с диска в реальном времени</h3></div>
+          <p>Консоль сервера пишется в console.log на диске. Нужно читать файл по мере роста, не перечитывая целиком, и раскрашивать вывод для читаемости.</p>
+          <div class="challenge-sol"><span class="lbl">Как решено</span>Чтение лога <b>раз в секунду</b> с цветовой разметкой строк — консоль сервера видна прямо в приложении.</div>
+        </div>
+        <div class="challenge">
+          <div class="challenge-hd"><span class="challenge-n">[ 04 ]</span><h3>Установка и переключение плагинов</h3></div>
+          <p>Плагины включаются и выключаются переименованием папок и деплоем в counterstrikesharp/plugins/. Metamod ставится скачиванием ZIP с GitHub, распаковкой и отслеживанием прогресса.</p>
+          <div class="challenge-sol"><span class="lbl">Как решено</span>Управление плагинами через файловую систему + <b>загрузчик Metamod</b> с распаковкой и прогресс-баром.</div>
+        </div>
+        <div class="challenge">
+          <div class="challenge-hd"><span class="challenge-n">[ 05 ]</span><h3>Frameless-окно и тёмная тема</h3></div>
+          <p>Стандартная рамка окна ломает цельный вид. Frameless-окно требует своей реализации перетаскивания, кнопок свернуть/развернуть/закрыть и 800+ строк кастомного CSS.</p>
+          <div class="challenge-sol"><span class="lbl">Как решено</span>Собственный тайтлбар, тёмная тема и <b>модальная система</b> вместо нативных браузерных alert().</div>
+        </div>
+        <div class="challenge">
+          <div class="challenge-hd"><span class="challenge-n">[ 06 ]</span><h3>Конфиги серверов между запусками</h3></div>
+          <p>Настройки серверов, пути и параметры должны переживать перезапуск приложения без развёртывания базы данных.</p>
+          <div class="challenge-sol"><span class="lbl">Как решено</span>JSON-конфиги в <b>~/.cssm/</b> — просто, переносимо, легко бэкапить.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ЭКРАНЫ ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Экраны · функционал ]</span>
+        <h2>Ключевые экраны</h2>
+        <p>Плейсхолдеры ниже подхватят реальные скрины автоматически — имя файла указано на каждой рамке.</p>
+      </div>
+      <div class="shots reveal">
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 02</span>
+              <div class="shot-ph-label">Настройка сервера: режим игры, карта, executable</div>
+              <code>assets/cs-manager/02-server-config.png</code>
+            </div>
+            <img data-src="assets/cs-manager/02-server-config.png" alt="Настройка сервера" />
+          </div>
+          <figcaption><span class="idx">[ 02 ]</span><b>Создание сервера.</b> Режим, карта и путь к исполняемому файлу в один экран.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 03</span>
+              <div class="shot-ph-label">RCON-панель: список игроков и кик</div>
+              <code>assets/cs-manager/03-rcon-players.png</code>
+            </div>
+            <img data-src="assets/cs-manager/03-rcon-players.png" alt="RCON-панель" />
+          </div>
+          <figcaption><span class="idx">[ 03 ]</span><b>RCON-управление.</b> Список игроков онлайн, кик игроков и ботов одной кнопкой.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 04</span>
+              <div class="shot-ph-label">Живая консоль сервера с цветной разметкой</div>
+              <code>assets/cs-manager/04-console.png</code>
+            </div>
+            <img data-src="assets/cs-manager/04-console.png" alt="Консоль сервера" />
+          </div>
+          <figcaption><span class="idx">[ 04 ]</span><b>Консоль.</b> Логи сервера в реальном времени с подсветкой строк.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 05</span>
+              <div class="shot-ph-label">Менеджер плагинов + установка Metamod с прогрессом</div>
+              <code>assets/cs-manager/05-plugins.png</code>
+            </div>
+            <img data-src="assets/cs-manager/05-plugins.png" alt="Менеджер плагинов" />
+          </div>
+          <figcaption><span class="idx">[ 05 ]</span><b>Плагины.</b> Включение/отключение плагинов и загрузка Metamod с прогресс-баром.</figcaption>
+        </figure>
+      </div>
+      <div class="note reveal">
+        <span class="k">[ Скрины ]</span>
+        <p>Положи PNG в <code>assets/cs-manager/</code> с именами из рамок — страница подхватит их сама, плейсхолдер исчезнет.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ СТЕК ═══ -->
+  <div class="block">
+    <div class="wrap wrap-narrow">
+      <div class="block-head reveal">
+        <span class="tag">[ Стек и подходы ]</span>
+        <h2>На чём собрано</h2>
+      </div>
+      <div class="spectable reveal">
+        <div class="spectable-tr"><div class="spectable-k">Оболочка</div><div class="spectable-v"><b>Electron.</b> Десктоп-приложение с доступом к процессам, файловой системе и сети.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Фронтенд</div><div class="spectable-v"><b>Vue 3 + Ant Design Vue 4.</b> Компонентный интерфейс, поверх — 800+ строк кастомного CSS в тёмной теме.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Управление</div><div class="spectable-v"><b>RCON поверх TCP.</b> Аутентификация, команды, парсинг пакетов, статус и кик игроков.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Процессы</div><div class="spectable-v"><b>Node child_process.</b> spawn cs2, мониторинг через tasklist / kill -0, опрос каждые 5 с.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Графики</div><div class="spectable-v"><b>ECharts.</b> Статистика серверов в виде живых графиков.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Хранение</div><div class="spectable-v"><b>JSON-конфиги</b> в ~/.cssm/ — без базы данных, переносимо.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ОЦЕНКА ═══ -->
+  <div class="block">
+    <div class="wrap wrap-narrow">
+      <div class="block-head reveal">
+        <span class="tag">[ Оценка трудозатрат ]</span>
+        <h2>Сколько это стоит на рынке</h2>
+        <p>Оценка по низу рынка для одного разработчика. Диапазон — из-за глубины интеграции с процессами и протоколом.</p>
+      </div>
+      <table class="est reveal">
+        <thead>
+          <tr><th>Ставка</th><th>2 нед. (80 ч)</th><th>3 нед. (120 ч)</th><th>4 нед. (160 ч)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>$8/ч</td><td class="mono-num">~51 тыс. ₽</td><td class="mono-num">~77 тыс. ₽</td><td class="mono-num">~102 тыс. ₽</td></tr>
+          <tr class="hi"><td>$10/ч</td><td class="mono-num">~64 тыс. ₽</td><td class="mono-num">~96 тыс. ₽</td><td class="mono-num">~128 тыс. ₽</td></tr>
+          <tr><td>$12/ч</td><td class="mono-num">~77 тыс. ₽</td><td class="mono-num">~115 тыс. ₽</td><td class="mono-num">~154 тыс. ₽</td></tr>
+        </tbody>
+      </table>
+      <p class="est-note">Реалистичная оценка по низу рынка — <b style="color:var(--sand)">$800–1 200 (65–96 тыс. ₽)</b> за версию, готовую к работе в клубе.</p>
+    </div>
+  </div>
+
+  <!-- ═══ ПЕРЕХОД ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="pager">
+        <a href="device-rental.html">
+          <div class="dir">← Отсек 01</div>
+          <div class="nm">Device Rental Service</div>
+        </a>
+        <a href="booking-notifier.html">
+          <div class="dir">Отсек 03 →</div>
+          <div class="nm">Booking Notifier</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ФУТЕР ═══ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <span class="brand-logo">RES SPACE</span>
+          <p>Внутренняя документация систем. Материал подготовлен для технической презентации.</p>
+        </div>
+        <div class="foot-col">
+          <h4>[ Отсеки ]</h4>
+          <a href="device-rental.html">01 · Device Rental</a>
+          <a href="cs-manager.html">02 · CS Server Manager</a>
+          <a href="booking-notifier.html">03 · Booking Notifier</a>
+          <a href="reviews-bot.html">04 · Reviews Aggregator</a>
+        </div>
+        <div class="foot-col">
+          <h4>[ Борт ]</h4>
+          <span>ПК-клуб · лаунж · бар</span>
+          <span>Санкт-Петербург</span>
+          <span>наб. реки Мойки, 60В</span>
+        </div>
+      </div>
+      <div class="foot-coord">
+        <span>Координаты станции · 59.931039, 30.314871</span>
+        <span>Ред. 07.2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

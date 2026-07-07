@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Отсек 03 · Booking Notifier — RES SPACE</title>
+  <meta name="description" content="Booking Notifier — фоновый сервис уведомлений о бронированиях: поллинг SmartShell GraphQL с пагинацией, уведомления в Telegram и Bitrix24, детект отмен, дедупликация. Python, 774 строки." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-logo">RES SPACE</span>
+        <span class="brand-sub">Бортовой журнал систем</span>
+      </a>
+      <nav class="topnav">
+        <a href="index.html#registry">Реестр</a>
+        <a href="index.html#eco">Экосистема</a>
+        <a href="index.html">Все отсеки</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══ HERO ОТСЕКА ═══ -->
+  <section class="phero">
+    <div class="wrap">
+      <div class="crumb">
+        <a href="index.html">Реестр</a> <span>/</span> <span>Отсек [ 03 ]</span>
+      </div>
+      <div class="phero-code">Отсек [ 03 ] · Booking Notifier · В работе ●</div>
+      <h1>Booking Notifier</h1>
+      <p class="phero-lead">
+        Фоновый сервис, который следит за бронированиями в биллинге SmartShell и уведомляет команду
+        в Telegram (и опционально в Bitrix24) о новых бронях и отменах — без ручного мониторинга
+        админки. Компактный по объёму, но с тремя интеграциями и логикой, устойчивой к дублям и
+        протухшему токену.
+      </p>
+      <div class="spec-row">
+        <div class="spec-cell"><div class="spec-num mono-num">774</div><div class="spec-label">строки Python</div></div>
+        <div class="spec-cell"><div class="spec-num mono-num">3</div><div class="spec-label">API-интеграции</div></div>
+        <div class="spec-cell"><div class="spec-num mono-num">2</div><div class="spec-label">файла</div></div>
+        <div class="spec-cell"><div class="spec-num mono-num">24/7</div><div class="spec-label">фоновый поллинг</div></div>
+      </div>
+      <div class="stack-inline">
+        <span class="chip key">Python</span>
+        <span class="chip key">SmartShell GraphQL</span>
+        <span class="chip">Telegram Bot API</span>
+        <span class="chip">Bitrix24</span>
+        <span class="chip">Docker</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ НАЗНАЧЕНИЕ ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Назначение ]</span>
+        <h2>Зачем это нужно борту</h2>
+      </div>
+      <div class="task-grid reveal">
+        <div class="task-body">
+          <p>
+            Брони в клуб приходят через биллинг SmartShell. Раньше, чтобы узнать о новой брони,
+            администратору надо было держать открытой админку и обновлять её вручную. Отмену
+            заметить ещё сложнее — слот освобождался, но об этом никто не узнавал вовремя.
+          </p>
+          <p>
+            Сервис снимает эту работу с человека: он <b>сам опрашивает биллинг</b>, видит новые
+            брони и отмены и отправляет их туда, где команда и так сидит — в <b>Telegram</b>.
+            Если в клубе используется Bitrix24, тот же поток событий уходит и туда.
+          </p>
+          <p>
+            Ручные брони администратора при этом отфильтрованы — уведомления приходят только по
+            клиентским, чтобы не создавать лишнего шума.
+          </p>
+        </div>
+        <div class="task-aside">
+          <div class="task-aside-row"><span class="k">Источник</span><span class="v">SmartShell (GraphQL)</span></div>
+          <div class="task-aside-row"><span class="k">Куда шлёт</span><span class="v">Telegram · Bitrix24</span></div>
+          <div class="task-aside-row"><span class="k">Режим</span><span class="v">Фоновый поллинг</span></div>
+          <div class="task-aside-row"><span class="k">Ловит</span><span class="v">Новые брони · отмены</span></div>
+          <div class="task-aside-row"><span class="k">Развёртывание</span><span class="v">Docker Compose</span></div>
+          <div class="task-aside-row"><span class="k">Исполнитель</span><span class="v">Один разработчик</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ПОЧЕМУ БЫЛО СЛОЖНО ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Инженерный разбор ]</span>
+        <h2>Чем это сложнее, чем «отправить сообщение»</h2>
+        <p>774 строки — немного по объёму, но за ними устойчивая работа с внешним API, авторизацией и состоянием без единого дубля и без ручного вмешательства неделями.</p>
+      </div>
+      <div class="challenges reveal">
+        <div class="challenge">
+          <div class="challenge-hd">
+            <span class="challenge-n">[ 01 ]</span>
+            <h3>Поллинг GraphQL с пагинацией</h3>
+          </div>
+          <p>SmartShell отдаёт брони через GraphQL постранично. Нужно обходить страницы, собирать полный список и делать это регулярно, не пропуская записи, появившиеся между опросами.</p>
+          <div class="challenge-sol"><span class="lbl">[ Решение ]</span>Поллинг с обходом пагинации и сборкой полного набора броней на каждой итерации — <b>ни одна страница не теряется</b>.</div>
+        </div>
+        <div class="challenge">
+          <div class="challenge-hd">
+            <span class="challenge-n">[ 02 ]</span>
+            <h3>Токен, который протухает</h3>
+          </div>
+          <p>Доступ к API требует авторизации, а токен живёт ограниченное время. Если он протухнет посреди ночи — сервис молча перестаёт получать данные, и об этом никто не узнает до утра.</p>
+          <div class="challenge-sol"><span class="lbl">[ Решение ]</span>Клиент с авторизацией по login-мутации и <b>автоматическим обновлением токена</b> — сервис работает сутками без вмешательства.</div>
+        </div>
+        <div class="challenge">
+          <div class="challenge-hd">
+            <span class="challenge-n">[ 03 ]</span>
+            <h3>Поймать отмену, а не только новую бронь</h3>
+          </div>
+          <p>Новую бронь заметить легко. Сложнее — поймать смену статуса: бронь была, стала отменённой. Для этого сервис должен помнить предыдущее состояние между запусками.</p>
+          <div class="challenge-sol"><span class="lbl">[ Решение ]</span>Отслеживание смены статусов с <b>персистентностью в JSON</b> — детектятся и новые брони, и отмены.</div>
+        </div>
+        <div class="challenge">
+          <div class="challenge-hd">
+            <span class="challenge-n">[ 04 ]</span>
+            <h3>Ни одного дубля уведомления</h3>
+          </div>
+          <p>При частом опросе легко отправить одну и ту же бронь дважды. Спам уведомлениями — быстрый способ добиться того, чтобы команда перестала их читать вовсе.</p>
+          <div class="challenge-sol"><span class="lbl">[ Решение ]</span>Дедупликация через <b>курсор по последнему ID брони</b> — каждое событие уходит ровно один раз.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ЭКРАНЫ ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Экраны · вывод ]</span>
+        <h2>Уведомления в действии</h2>
+        <p>Сервис без интерфейса — его «лицо» это сообщения. Ниже плейсхолдеры под реальные скрины; имя файла подписано на каждом.</p>
+      </div>
+      <div class="shots three reveal">
+        <figure class="shot">
+          <div class="shot-frame phone">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 01</span>
+              <div class="shot-ph-label">Уведомление о новой брони в Telegram</div>
+              <code>assets/booking/01-tg-new.png</code>
+            </div>
+            <img data-src="assets/booking/01-tg-new.png" alt="Уведомление о брони" />
+          </div>
+          <figcaption><span class="idx">[ 01 ]</span><b>Новая бронь.</b> HTML-сообщение в Telegram с деталями брони.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame phone">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 02</span>
+              <div class="shot-ph-label">Уведомление об отмене брони</div>
+              <code>assets/booking/02-tg-cancel.png</code>
+            </div>
+            <img data-src="assets/booking/02-tg-cancel.png" alt="Уведомление об отмене" />
+          </div>
+          <figcaption><span class="idx">[ 02 ]</span><b>Отмена.</b> Детект смены статуса — команда сразу видит освободившийся слот.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame phone">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 03</span>
+              <div class="shot-ph-label">Attach-грид в Bitrix24 (опционально)</div>
+              <code>assets/booking/03-bitrix.png</code>
+            </div>
+            <img data-src="assets/booking/03-bitrix.png" alt="Bitrix24 грид" />
+          </div>
+          <figcaption><span class="idx">[ 03 ]</span><b>Bitrix24.</b> Тот же поток событий уходит в корпоративный чат attach-гридом.</figcaption>
+        </figure>
+      </div>
+      <div class="note reveal">
+        <span class="k">[ Экраны ]</span>
+        <p>Положи PNG в <b>assets/booking/</b> с именами из плейсхолдеров. Вертикальный формат — под скрины телефона. Страница подхватит их сама.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ СТЕК ═══ -->
+  <div class="block">
+    <div class="wrap wrap-narrow">
+      <div class="block-head reveal">
+        <span class="tag">[ Стек · что реализовано ]</span>
+        <h2>Из чего собрано</h2>
+      </div>
+      <div class="spectable reveal">
+        <div class="spectable-tr"><div class="spectable-k">SmartShell API</div><div class="spectable-v"><b>GraphQL-поллинг</b> броней с пагинацией и автообновлением токена авторизации.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Telegram</div><div class="spectable-v"><b>Уведомления</b> о новых бронях и отменах в HTML-формате.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Bitrix24</div><div class="spectable-v"><b>Опциональная интеграция:</b> регистрация бота и отправка attach-гридов.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Логика статусов</div><div class="spectable-v"><b>Детект отмен</b> через сравнение с сохранённым состоянием, персистентность в JSON.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Надёжность</div><div class="spectable-v"><b>Дедупликация</b> курсором по последнему ID брони — без повторных уведомлений.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Развёртывание</div><div class="spectable-v"><b>Docker.</b> Контейнер на том же хосте, что и остальные боты клуба.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ОЦЕНКА ═══ -->
+  <div class="block">
+    <div class="wrap wrap-narrow">
+      <div class="block-head reveal">
+        <span class="tag">[ Оценка трудозатрат ]</span>
+        <h2>Ориентир по стоимости</h2>
+        <p>Компактный сервис по низу рынка — но с тремя реальными интеграциями и продакшен-логикой, а не учебный скрипт.</p>
+      </div>
+      <table class="est reveal">
+        <thead>
+          <tr><th>Ставка</th><th>3 дня (24 ч)</th><th>5 дней (40 ч)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>$8/ч · 650 ₽</td><td class="mono-num">~15 тыс. ₽</td><td class="mono-num">~26 тыс. ₽</td></tr>
+          <tr class="hi"><td>$10/ч · 800 ₽</td><td class="mono-num">~19 тыс. ₽</td><td class="mono-num">~32 тыс. ₽</td></tr>
+          <tr><td>$12/ч · 950 ₽</td><td class="mono-num">~23 тыс. ₽</td><td class="mono-num">~38 тыс. ₽</td></tr>
+        </tbody>
+      </table>
+      <p class="est-note">[ Ориентир ] Реалистичная оценка по низу рынка — <b>$250–400 (20–32 тыс. ₽)</b>.</p>
+    </div>
+  </div>
+
+  <!-- ═══ ПЕРЕХОД ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <nav class="pager">
+        <a href="cs-manager.html">
+          <div class="dir">← Отсек [ 02 ]</div>
+          <div class="nm">CS Server Manager</div>
+        </a>
+        <a href="reviews-bot.html">
+          <div class="dir">Отсек [ 04 ] →</div>
+          <div class="nm">Reviews Aggregator</div>
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ═══ ФУТЕР ═══ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <span class="brand-logo">RES SPACE</span>
+          <p>Внутренняя документация систем. Материал подготовлен для технической презентации.</p>
+        </div>
+        <div class="foot-col">
+          <h4>[ Отсеки ]</h4>
+          <a href="device-rental.html">01 · Device Rental</a>
+          <a href="cs-manager.html">02 · CS Server Manager</a>
+          <a href="booking-notifier.html">03 · Booking Notifier</a>
+          <a href="reviews-bot.html">04 · Reviews Aggregator</a>
+        </div>
+        <div class="foot-col">
+          <h4>[ Борт ]</h4>
+          <span>ПК-клуб · лаунж · бар</span>
+          <span>Санкт-Петербург</span>
+          <span>наб. реки Мойки, 60В</span>
+        </div>
+      </div>
+      <div class="foot-coord">
+        <span>Координаты станции · 59.931039, 30.314871</span>
+        <span>Ред. 07.2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

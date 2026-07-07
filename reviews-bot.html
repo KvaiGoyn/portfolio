@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Отсек 04 · Reviews Aggregator — RES SPACE</title>
+  <meta name="description" content="Reviews Aggregator — сбор отзывов с Яндекс.Карт, 2ГИС и Google Business Profile в Telegram. Python, aiogram, общий интерфейс парсеров, OAuth2, fingerprint-дедупликация." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <a class="brand-logo" href="index.html">RES SPACE</a>
+        <span class="brand-sub">Бортовой журнал систем</span>
+      </div>
+      <nav class="topnav">
+        <a href="index.html">Реестр</a>
+        <a href="index.html#eco">Экосистема</a>
+        <a href="reviews-bot.html">Отсек 04</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══ ЗАГОЛОВОК ОТСЕКА ═══ -->
+  <section class="phero">
+    <div class="wrap">
+      <div class="crumb">
+        <a href="index.html">Реестр</a> <span>/</span> <span>Отсек 04 · Reviews Aggregator</span>
+      </div>
+      <div class="phero-code">Отсек [ 04 ] · Мониторинг репутации</div>
+      <h1>Reviews Aggregator</h1>
+      <p class="phero-lead">
+        Сервис собирает отзывы о заведении сразу с трёх карт-агрегаторов — Яндекс.Карты, 2ГИС и
+        Google Business Profile — и присылает новые в Telegram команде. Вместо ручного обхода трёх
+        сайтов репутация приходит сама, а новый источник добавляется одним классом.
+      </p>
+
+      <div class="spec-row">
+        <div class="spec-cell"><div class="spec-num mono-num">3</div><div class="spec-label">Источника</div></div>
+        <div class="spec-cell"><div class="spec-num mono-num">30′</div><div class="spec-label">Интервал опроса</div></div>
+        <div class="spec-cell"><div class="spec-num">OAuth2</div><div class="spec-label">Google API</div></div>
+        <div class="spec-cell"><div class="spec-num">Docker</div><div class="spec-label">Деплой</div></div>
+      </div>
+
+      <div class="stack-inline">
+        <span class="chip key">Python</span>
+        <span class="chip key">aiogram</span>
+        <span class="chip">asyncio</span>
+        <span class="chip">Яндекс.Карты</span>
+        <span class="chip">2ГИС API</span>
+        <span class="chip">Google Business API</span>
+        <span class="chip">Docker</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ПОЧЕМУ БЫЛО СЛОЖНО ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Инженерный разбор ]</span>
+        <h2>Три источника, у каждого свой характер</h2>
+        <p>
+          Собрать отзывы с одной площадки — вечер работы. Собрать с трёх разных, привести к единому
+          виду и ни разу не задублировать — принципиально другая задача.
+        </p>
+      </div>
+
+      <div class="challenges">
+        <div class="challenge reveal">
+          <div class="challenge-hd"><span class="challenge-n">[ 01 ]</span><h3>Три площадки — три способа достать данные</h3></div>
+          <p>
+            Яндекс, 2ГИС и Google отдают отзывы совершенно по-разному: где-то API с ключом, где-то —
+            OAuth2 с refresh-токеном. Каждый источник живёт по своим правилам, а на выходе формат
+            сообщения должен быть один.
+          </p>
+          <div class="challenge-sol">
+            <span class="lbl">Как решено</span>
+            Общий интерфейс <b>BaseParser.parse()</b> и единый DTO <b>ReviewDTO</b>: новый источник —
+            это новый класс-парсер, ядро и рассылка не меняются.
+          </div>
+        </div>
+
+        <div class="challenge reveal">
+          <div class="challenge-hd"><span class="challenge-n">[ 02 ]</span><h3>Google Business Profile через OAuth2</h3></div>
+          <p>
+            Google не отдаёт отзывы по простому ключу — нужен полноценный OAuth2 с получением
+            refresh-токена, аккаунтом и локацией. Самая тяжёлая из трёх интеграций.
+          </p>
+          <div class="challenge-sol">
+            <span class="lbl">Как решено</span>
+            Отдельный скрипт получения refresh-токена; источник включается <b>опционально</b> —
+            только когда заданы креды, иначе работают Яндекс и 2ГИС.
+          </div>
+        </div>
+
+        <div class="challenge reveal">
+          <div class="challenge-hd"><span class="challenge-n">[ 03 ]</span><h3>Один отзыв — одно уведомление</h3></div>
+          <p>
+            При опросе раз в 30 минут те же отзывы возвращаются снова и снова. Нужно надёжно отличить
+            «уже видели» от «новое» — даже когда у отзыва нет стабильного ID.
+          </p>
+          <div class="challenge-sol">
+            <span class="lbl">Как решено</span>
+            <b>Fingerprint</b> — либо внешний ID отзыва, либо md5 от «автор:текст». Состояние хранится
+            между запусками, так что перезапуск не превращается в шквал дублей.
+          </div>
+        </div>
+
+        <div class="challenge reveal">
+          <div class="challenge-hd"><span class="challenge-n">[ 04 ]</span><h3>Работать самому, без присмотра</h3></div>
+          <p>
+            Бот должен опрашивать источники по расписанию в фоне, параллельно отвечая на команды, и
+            переживать перезапуски без потери состояния.
+          </p>
+          <div class="challenge-sol">
+            <span class="lbl">Как решено</span>
+            <b>asyncio-планировщик</b> стартует в фоне при запуске бота; состояние в JSON, деплой через
+            Docker, доступ к боту ограничен списком чатов.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ЭКРАНЫ ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="block-head reveal">
+        <span class="tag">[ Экраны · 01–03 ]</span>
+        <h2>Отзывы приходят в Telegram</h2>
+        <p>Три источника — один формат сообщения. Плейсхолдеры заменяются автоматически при добавлении файлов.</p>
+      </div>
+
+      <div class="shots three reveal">
+        <figure class="shot">
+          <div class="shot-frame phone">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 01</span>
+              <span class="shot-ph-label">Новый отзыв с Яндекс.Карт в Telegram</span>
+              <code>assets/reviews/01-yandex.png</code>
+            </div>
+            <img data-src="assets/reviews/01-yandex.png" alt="Отзыв Яндекс" />
+          </div>
+          <figcaption><span class="idx">[01]</span><b>Яндекс.Карты.</b> Автор, оценка и текст отзыва.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame phone">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 02</span>
+              <span class="shot-ph-label">Отзыв из 2ГИС в том же формате</span>
+              <code>assets/reviews/02-2gis.png</code>
+            </div>
+            <img data-src="assets/reviews/02-2gis.png" alt="Отзыв 2ГИС" />
+          </div>
+          <figcaption><span class="idx">[02]</span><b>2ГИС.</b> Единый формат сообщения из другого источника.</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot-frame phone">
+            <div class="shot-ph">
+              <span class="shot-ph-badge">Экран 03</span>
+              <span class="shot-ph-label">Отзыв из Google Business Profile</span>
+              <code>assets/reviews/03-google.png</code>
+            </div>
+            <img data-src="assets/reviews/03-google.png" alt="Отзыв Google" />
+          </div>
+          <figcaption><span class="idx">[03]</span><b>Google.</b> Получен через Business Profile API (OAuth2).</figcaption>
+        </figure>
+      </div>
+
+      <div class="note reveal">
+        <span class="k">Как добавить</span>
+        <p>Файлы <b>PNG</b> в <code>assets/reviews/</code> с именами из плейсхолдеров — вертикальный формат под скрины телефона.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ АРХИТЕКТУРА ═══ -->
+  <div class="block">
+    <div class="wrap wrap-narrow">
+      <div class="block-head reveal">
+        <span class="tag">[ Архитектура ]</span>
+        <h2>Как это устроено</h2>
+      </div>
+      <div class="spectable reveal">
+        <div class="spectable-tr"><div class="spectable-k">Ядро</div><div class="spectable-v"><b>aiogram + asyncio.</b> Telegram-бот с фоновым планировщиком, который стартует при запуске и опрашивает источники по расписанию.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Парсеры</div><div class="spectable-v">Отдельный класс на источник (<b>Яндекс, 2ГИС, Google</b>) поверх общего интерфейса <b>BaseParser</b>.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Модель данных</div><div class="spectable-v">Единый <b>ReviewDTO</b> — отзывы из всех источников приводятся к одному виду для рассылки.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Google API</div><div class="spectable-v"><b>OAuth2</b> Business Profile API плюс отдельный скрипт получения refresh-токена.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Дедупликация</div><div class="spectable-v"><b>Fingerprint</b> по external_id или md5(автор:текст); состояние в <b>state.json</b>.</div></div>
+        <div class="spectable-tr"><div class="spectable-k">Деплой</div><div class="spectable-v"><b>Docker + docker-compose</b>, доступ к боту ограничен списком чатов.</div></div>
+      </div>
+
+      <div class="note reveal">
+        <span class="k">В планах</span>
+        <p>Отправка тех же уведомлений в <b>Bitrix24</b> — переиспользуя паттерн вебхук-интеграции из отсека Booking Notifier.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ПЕРЕХОД ═══ -->
+  <div class="block">
+    <div class="wrap">
+      <div class="pager">
+        <a href="booking-notifier.html">
+          <div class="dir">← Отсек 03</div>
+          <div class="nm">Booking Notifier</div>
+        </a>
+        <a href="index.html">
+          <div class="dir">Вернуться →</div>
+          <div class="nm">Схема борта</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ФУТЕР ═══ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <span class="brand-logo">RES SPACE</span>
+          <p>Внутренняя документация систем. Материал подготовлен для технической презентации.</p>
+        </div>
+        <div class="foot-col">
+          <h4>[ Отсеки ]</h4>
+          <a href="device-rental.html">01 · Device Rental</a>
+          <a href="cs-manager.html">02 · CS Server Manager</a>
+          <a href="booking-notifier.html">03 · Booking Notifier</a>
+          <a href="reviews-bot.html">04 · Reviews Aggregator</a>
+        </div>
+        <div class="foot-col">
+          <h4>[ Борт ]</h4>
+          <span>ПК-клуб · лаунж · бар</span>
+          <span>Санкт-Петербург</span>
+          <span>наб. реки Мойки, 60В</span>
+        </div>
+      </div>
+      <div class="foot-coord">
+        <span>Координаты станции · 59.931039, 30.314871</span>
+        <span>Ред. 07.2026</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
