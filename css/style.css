@@ -298,12 +298,12 @@ a { color: inherit; text-decoration: none; }
 .shots.wide { grid-template-columns: 1fr; }
 .shots.three { grid-template-columns: repeat(3, 1fr); }
 .shot { margin: 0; border: 1px solid var(--line); background: var(--ink-2); overflow: hidden; }
-.shot-frame { position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: var(--ink-3); }
+.shot-frame { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; background: var(--ink-3); }
 .shot-frame.tall { aspect-ratio: 4 / 5; }
 .shot-frame.phone { aspect-ratio: 9 / 16; }
 .shot-frame.chat { aspect-ratio: 7 / 5; }
-.shot-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: none; }
-.shot-frame.chat img { object-fit: contain; object-position: center; background: var(--ink-3); }
+.shot-frame.wide { aspect-ratio: 16 / 9; }
+.shot-frame img { width: 100%; height: 100%; object-fit: contain; object-position: center; background: var(--ink-3); display: none; }
 .shot.has-img .shot-frame img { display: block; }
 .shot.has-img .shot-ph { display: none; }
 .shot-ph {
