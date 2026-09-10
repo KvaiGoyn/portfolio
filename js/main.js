@@ -5,12 +5,9 @@ document.querySelectorAll('.shot').forEach((shot) => {
   const img = shot.querySelector('img[data-src]');
   if (!img) return;
   const src = img.getAttribute('data-src');
-  const probe = new Image();
-  probe.onload = () => {
-    img.src = src;
-    shot.classList.add('has-img');
-  };
-  probe.src = src;
+  img.addEventListener('load', () => shot.classList.add('has-img'), { once: true });
+  img.addEventListener('error', () => img.remove(), { once: true });
+  img.src = src;
 });
 
 // ── Появление при скролле ──
