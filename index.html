@@ -1,50 +1,17 @@
 <!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RES SPACE — реестр цифрового борта</title>
-  <meta name="description" content="Три рабочие системы Res Space: CyberRES, Device Service и Booking Notifier. Архитектура, инженерные решения и статус проектов." />
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-  <body>
-  <a class="skip-link" href="#main-content">Перейти к содержимому</a>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="index.html"><span class="brand-logo">RES SPACE</span><span class="brand-sub">Реестр цифрового борта</span></a>
-      <nav class="topnav"><a href="#registry">Реестр</a><a href="#eco">Система</a><a href="cyberres.html">CyberRES</a></nav>
-      <div class="top-contact"><a href="https://github.com/KvaiGoyn" target="_blank" rel="noreferrer">GitHub</a><a href="https://t.me/illidansimo" target="_blank" rel="noreferrer">Telegram</a></div>
-    </div>
-  </header>
-
-  <main id="main-content">
-    <section class="hero">
-      <div class="wrap">
-        <div class="hero-meta"><span>Досье / актуальная редакция</span><span>Один разработчик</span><span>Ред. 09.2026</span></div>
-        <div class="hero-identity"><strong>Замятин Илья</strong><span>Frontend / Fullstack разработчик</span><span>Санкт-Петербург</span></div>
-        <h1>Рабочие цифровые системы, на которых <mark>держится бизнес</mark></h1>
-        <p class="hero-lead">Не витрина концептов, а рабочие инструменты Res Space. Три системы закрывают игровой контур, прокат оборудования и поток бронирований.</p>
-        <div class="hero-actions"><a class="action-link" href="https://t.me/illidansimo" target="_blank" rel="noreferrer">Обсудить задачу <span>↗</span></a><a class="action-link" href="https://github.com/KvaiGoyn" target="_blank" rel="noreferrer">Открыть GitHub <span>↗</span></a></div>
-        <div class="hero-stats"><div><b>03</b><span>активных проекта</span></div><div><b>24/7</b><span>операционные процессы</span></div><div><b>01</b><span>единая площадка</span></div></div>
-      </div>
-    </section>
-
-    <section class="sec" id="registry">
-      <div class="wrap">
-        <div class="sec-head"><span class="tag">[ Реестр маршрутов ]</span><h2>Три системы в работе</h2><p>Каждый проект собран вокруг реального процесса клуба. Статус показывает, что действительно работает сейчас.</p></div>
-        <div class="registry registry-featured">
-          <article class="mcard mcard-feature reveal"><div class="mcard-top"><span class="mcard-code">МАРШРУТ [ 01 ]</span><span class="mcard-status live">В работе · флагман</span></div><h3>CyberRES</h3><div class="mcard-role">CS2 Control Plane для лобби и турниров</div><p>Платформа управляет жизненным циклом игровых серверов: от создания лобби и распределения команд до veto, запуска матча и live-счёта. Инфраструктура работает поверх Docker/Pterodactyl и MatchZy.</p><div class="mcard-specs"><div><div class="mcard-spec-num">P0</div><div class="mcard-spec-label">продукт</div></div><div><div class="mcard-spec-num">CS2</div><div class="mcard-spec-label">домен</div></div><div><div class="mcard-spec-num">LIVE</div><div class="mcard-spec-label">состояние</div></div></div><div class="mcard-stack"><span class="chip key">FastAPI</span><span class="chip">React</span><span class="chip">Docker</span><span class="chip">Pterodactyl</span><span class="chip">MatchZy</span></div><a class="mcard-open" href="cyberres.html">Открыть маршрут <span class="arr">→</span></a></article>
-          <article class="mcard reveal"><div class="mcard-top"><span class="mcard-code">МАРШРУТ [ 02 ]</span><span class="mcard-status live">В работе</span></div><h3>Device Service</h3><div class="mcard-role">Прокат игровых девайсов</div><p>Каталог, заявки, Telegram-бот инженера и админка работают как единая система. ПК и остатки управляются через API, события приходят по SSE, а данные синхронизируются со SmartShell.</p><div class="mcard-specs"><div><div class="mcard-spec-num">API</div><div class="mcard-spec-label">источник ПК</div></div><div><div class="mcard-spec-num">SSE</div><div class="mcard-spec-label">real-time</div></div><div><div class="mcard-spec-num">CRUD</div><div class="mcard-spec-label">runtime</div></div></div><div class="mcard-stack"><span class="chip key">Vue 3</span><span class="chip">Node.js</span><span class="chip">Electron</span><span class="chip">Telegram</span><span class="chip">SmartShell</span></div><a class="mcard-open" href="device-rental.html">Открыть маршрут <span class="arr">→</span></a></article>
-          <article class="mcard reveal"><div class="mcard-top"><span class="mcard-code">МАРШРУТ [ 03 ]</span><span class="mcard-status live">В работе</span></div><h3>Booking Notifier</h3><div class="mcard-role">Сигнальный контур бронирований</div><p>Фоновый сервис следит за SmartShell, ловит новые брони и отмены и доставляет их команде в Telegram и Bitrix24. Состояние переживает перезапуски, события не дублируются.</p><div class="mcard-specs"><div><div class="mcard-spec-num">24/7</div><div class="mcard-spec-label">поллинг</div></div><div><div class="mcard-spec-num">03</div><div class="mcard-spec-label">интеграции</div></div><div><div class="mcard-spec-num">0</div><div class="mcard-spec-label">дублей</div></div></div><div class="mcard-stack"><span class="chip key">Python</span><span class="chip">GraphQL</span><span class="chip">Telegram</span><span class="chip">Bitrix24</span><span class="chip">Docker</span></div><a class="mcard-open" href="booking-notifier.html">Открыть маршрут <span class="arr">→</span></a></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="eco"><div class="wrap"><div class="sec-head"><span class="tag">[ Система ]</span><h2>Один борт, разные маршруты</h2><p>Проекты не изолированы: они обслуживают одну площадку и используют общие точки интеграции.</p></div><div class="eco"><div class="eco-cell reveal"><div class="n">[ ПЛОЩАДКА ]</div><h3>Res Space</h3><p>ПК-клуб, лаунж и бар в Санкт-Петербурге. Системы проектируются под смену, гостей и игровые события, а не под абстрактный сценарий.</p></div><div class="eco-cell reveal"><div class="n">[ ИСТОЧНИК ]</div><h3>SmartShell</h3><p>Биллинг связывает прокат и бронирования с реальным состоянием клуба: кто пришёл, где играет и какой ресурс доступен.</p></div><div class="eco-cell reveal"><div class="n">[ КОНТУР ]</div><h3>Telegram</h3><p>Операционная поверхность для команды: инженер выдаёт устройство, администратор получает бронь, система отправляет сигнал без отдельной панели.</p></div></div></div></section>
-
-    <section class="sec archive"><div class="wrap"><div class="sec-head"><span class="tag">[ Архив маршрутов ]</span><h2>Предыдущие итерации</h2><p>Сохранённые проекты и эксперименты. Они не входят в текущий операционный контур и не выдаются за активную разработку.</p></div><div class="archive-list"><a href="cs-manager.html"><span>CS Server Manager</span><small>заморожено · desktop-пульт</small><b>→</b></a><a href="reviews-bot.html"><span>Reviews Aggregator</span><small>заморожено · мониторинг отзывов</small><b>→</b></a></div></div></section>
-  </main>
-  <footer class="foot"><div class="wrap"><div class="foot-grid"><div class="foot-brand"><span class="brand-logo">RES SPACE</span><p>Портфолио Замятина Ильи: рабочие цифровые системы и автоматизация для бизнеса.</p></div><div class="foot-col"><h3>[ Актуальные маршруты ]</h3><a href="cyberres.html">01 · CyberRES</a><a href="device-rental.html">02 · Device Service</a><a href="booking-notifier.html">03 · Booking Notifier</a></div><div class="foot-col foot-contact"><h3>[ Связь ]</h3><a href="https://github.com/KvaiGoyn" target="_blank" rel="noreferrer">GitHub · KvaiGoyn</a><a href="https://t.me/illidansimo" target="_blank" rel="noreferrer">Telegram · @illidansimo</a><span>Санкт-Петербург</span></div></div></div></footer>
-  <script src="js/main.js"></script>
-</body>
-</html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Обо мне — Илья Замятин</title><meta name="description" content="Илья Замятин — Fullstack разработчик из Санкт-Петербурга. Биография, образование и профессиональные проекты."><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/personal.css"></head>
+<body class="personal-site"><a class="skip-link" href="#main-content">Перейти к содержимому</a><header class="personal-header"><div class="personal-header-inner"><a class="personal-name" href="index.html">Илья Замятин<span>Личное портфолио</span></a><nav aria-label="Основная навигация"><a href="index.html" aria-current="page">Обо мне</a><a href="education.html">Образование</a><a href="projects.html">Проекты</a><a href="personal.html">Личное</a></nav></div></header><main id="main-content" class="personal-main">
+<section class="personal-intro" aria-labelledby="intro-title"><div class="intro-copy"><h1 id="intro-title">Илья <br>Замятин</h1><p class="intro-role">Fullstack<br>разработчик</p><p class="intro-lead">Разрабатываю интерфейсы, сервисы и автоматизацию для реальных рабочих процессов.</p><p>Работаю software developer в Res Technologies. Учусь на третьем курсе ИТМО, на треке веб-разработки. Живу в Санкт-Петербурге. Среди моих проектов — платформа для матчей и турниров CS2, сервис проката игровых устройств и система уведомлений о бронированиях.</p><div class="personal-actions"><a class="personal-button" href="projects.html">Посмотреть проекты</a><a class="personal-text-link" href="https://t.me/illidansimo" target="_blank" rel="noreferrer">Связаться со мной</a></div></div><figure class="portrait"><img src="assets/profile-portrait.png" alt="Портрет Ильи Замятина в джинсовой куртке" width="1122" height="1402"></figure></section>
+<section class="personal-section about-section" aria-labelledby="bio-title"><div><h2 id="bio-title">Обо мне</h2><p class="section-lead">Мне интересно, как идея превращается в систему, которой можно пользоваться каждый день.</p><p>В работе соединяю пользовательские интерфейсы и серверную часть: от экрана гостя до инструментов администратора и интеграций с внешними сервисами.</p><p>До ИТМО учился в СУНЦ УрФУ на физтехе. Сейчас совмещаю учёбу с разработкой. В свободное время катаюсь на мотоцикле.</p></div></section>
+<section class="personal-section career-section" aria-labelledby="career-title">
+  <h2 id="career-title">Как я пришёл в разработку</h2>
+  <ol class="career-history">
+    <li><article><h3>Полтора года за баром</h3><p>Моя карьера началась с работы в баре. Я провёл там полтора года, а затем пришёл в Res Space — тоже на бар.</p></article></li>
+    <li><article><h3>Res Space</h3><p>Из бара меня пригласили на позицию системного инженера. Так я перешёл к работе с технической инфраструктурой площадки.</p></article></li>
+    <li><article><h3>Собственные сервисы для Space</h3><p>Работая системным инженером, в свободное от работы время я писал сервисы для Res Space. Разрабатывал инструменты для задач, с которыми сталкивался на площадке.</p></article></li>
+    <li><article><h3>Software developer в Res Technologies</h3><p>Мои разработки заметил владелец Res Technologies и пригласил меня к себе в офис на позицию software developer. Сейчас разработка — моя основная работа.</p></article></li>
+  </ol>
+</section>
+<section class="personal-section" aria-labelledby="featured-title"><div class="section-heading"><h2 id="featured-title">Избранные проекты</h2><a class="personal-text-link" href="projects.html">Все проекты</a></div><div class="personal-cases"><article class="personal-case"><a class="case-image" href="cyberres.html" tabindex="-1" aria-hidden="true"><img src="assets/cyberres-dashboard.png" alt="" loading="lazy"></a><div class="case-copy"><p class="case-kind">Игровая платформа</p><h3><a href="cyberres.html">CyberRES</a></h3><p>Создание матчей, лобби и турниров CS2. Интерфейсы для игроков и администраторов, управление игровыми серверами.</p><p class="case-stack">React · FastAPI · Docker</p></div></article><article class="personal-case"><a class="case-image" href="device-rental.html" tabindex="-1" aria-hidden="true"><img src="assets/device-rental/01-catalog.jpg" alt="" loading="lazy"></a><div class="case-copy"><p class="case-kind">Прокат оборудования</p><h3><a href="device-rental.html">Device Service</a></h3><p>Каталог игровых устройств, оформление заявок, выдача через Telegram и управление остатками в админке.</p><p class="case-stack">Vue 3 · Node.js · Telegram</p></div></article></div></section>
+</main><footer class="personal-footer"><div class="personal-footer-inner"><div><a class="personal-name" href="index.html">Илья Замятин</a><p>Fullstack · Санкт-Петербург</p></div><address><a href="https://t.me/illidansimo" target="_blank" rel="noreferrer">Написать в Telegram</a><a href="https://github.com/KvaiGoyn" target="_blank" rel="noreferrer">GitHub</a></address></div></footer></body></html>

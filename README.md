@@ -1,45 +1,28 @@
-# Портфолио цифровых систем Res Space
+# Личное портфолио Ильи Замятина
 
-Статический сайт без сборки. Публичный реестр показывает только рабочие проекты:
-CyberRES, Device Service и Booking Notifier. Старые проекты доступны в архиве.
+Статический многостраничный сайт на HTML, CSS и JavaScript.
 
 ## Запуск
 
 ```bash
-python3 -m http.server 8080
+python3 -m http.server 3000
 ```
 
-Открыть `http://localhost:8080`.
+Открыть http://localhost:3000.
 
-## Структура
+## Основные страницы
 
-```text
-index.html            # актуальный реестр
-cyberres.html         # CyberRES / продуктовая презентация + inline tournament showcase
-device-rental.html    # Device Service
-booking-notifier.html # Booking Notifier
-cs-manager.html       # архив
-reviews-bot.html      # архив
-css/style.css         # брендовая система Res Space
-js/main.js            # анимации и загрузка скриншотов
-assets/               # изображения проектов
-```
+- `index.html` — биография, карьерная история, место для фото и избранные проекты.
+- `education.html` — СУНЦ УрФУ, ИТМО, темы самостоятельного изучения.
+- `projects.html` — профессиональные кейсы.
+- `personal.html` — езда на мотоцикле.
 
-## Визуальная система
+Подробные кейсы: `cyberres.html`, `device-rental.html`, `booking-notifier.html`,
+`cs-manager.html`, `reviews-bot.html`.
 
-- Графитовый космос: `#282621`
-- Пыль кометы: `#90846C`
-- Венерианский песок: `#FDEDC7`
-- Моноширинная типографика и модульная сетка 3 × 6
-- Навигационный тон: маршрут, координаты, борт, система, экипаж
+`css/personal.css` задаёт оформление личных страниц и общую навигацию.
+`css/style.css` сохраняет стили подробных кейсов. В `assets/` хранятся изображения
+проектов и исходный векторный логотип Res Space.
 
-Изображения архивных проектов без публичных скриншотов отображаются как
-подписанные плейсхолдеры, поэтому сайт остаётся работоспособным без приватных
-материалов.
-
-## Автор
-
-Замятин Илья · Frontend / Fullstack разработчик
-
-- GitHub: https://github.com/KvaiGoyn
-- Telegram: https://t.me/illidansimo
+Портрет для главной страницы находится в `assets/profile-portrait.png`. Даты
+обучения и сертификаты не добавлены без подтверждения автора.
