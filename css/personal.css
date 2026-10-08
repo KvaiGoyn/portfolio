@@ -84,9 +84,7 @@
 .education-entry h2 { margin-bottom: 28px; }
 .education-detail { font-size: 20px; }
 .education-entry p { max-width: 65ch; }
-.study-topics { display: grid; gap: 32px; margin: 36px 0 0; }
-.study-topics h3 { font-size: 20px; margin-bottom: 20px; }
-.study-topics p { margin: 0; }
+.study-topics { margin: 36px 0 0; }
 .personal-note { width: calc((100% - 2 * var(--brand-gutter)) / 3 * 2 + var(--brand-gutter)); margin: 32px 0 64px auto; padding: 30px 0; border-top: 1px solid var(--taupe); }
 .client-logo { grid-column: 3; width: 100%; max-width: 240px; height: auto; justify-self: end; padding: 14px; }
 .personal-archive { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: var(--brand-gutter); margin-top: 36px; }
