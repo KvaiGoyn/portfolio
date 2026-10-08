@@ -17,13 +17,11 @@ document.addEventListener('click',e=>{
  if(b.dataset.details){const d=devices.find(d=>d.id===b.dataset.details);$('#detail-name').textContent=d.name;$('#detail-icon').textContent=d.icon;$('#detail-specs').textContent=d.specs.join(' · ');$('#details').showModal();}
 });
 $('#checkout').addEventListener('click',()=>{
- const selected=devices.filter(d=>quantities[d.id]).map(d=>`${d.name} × ${quantities[d.id]}`).join(' · ');
- if(!selected)return;
+ if(!Object.values(quantities).some(Boolean))return;
  $('.basket').hidden=true;
  $('#catalog').hidden=true;
  $('.filters').hidden=true;
  $('#order').hidden=false;
  $('#order-title').textContent='Заказ создан';
- $('#order-description').textContent=`${selected} · ПК 07. Это демонстрация: реальная заявка не отправляется.`;
 });
 render();
