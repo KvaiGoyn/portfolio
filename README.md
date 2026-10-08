@@ -17,11 +17,10 @@ python3 -m http.server 3000
 - `projects.html` — профессиональные кейсы.
 - `personal.html` — езда на мотоцикле.
 
-Подробные кейсы: `cyberres.html`, `device-rental.html`, `booking-notifier.html`,
-`cs-manager.html`, `reviews-bot.html`.
+Подробные страницы старого портфолио удалены. Описания проектов и демонстрации собраны на страницах `projects.html` и `index.html`.
 
 `css/personal.css` задаёт оформление личных страниц и общую навигацию.
-`css/style.css` сохраняет стили подробных кейсов. В `assets/` хранятся изображения
+`css/style.css` задаёт базовые стили проекта. В `assets/` хранятся изображения
 проектов и исходный векторный логотип Res Space.
 
 Портрет для главной страницы находится в `assets/profile-portrait.png`. Даты

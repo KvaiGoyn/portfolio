@@ -1,0 +1,3 @@
+# Device Service demo
+`original.css` contains the original base theme and scoped style bodies from `/home/kvaigon/Device_service/src/style.css`, `views/HomePage.vue`, and `components/DeviceCard.vue` (copied 2026-09-24). `demo.css` adapts the dimensions and accessible controls for an isolated portfolio iframe. No service code or live data is modified.
+The two product names and specs follow the local catalogue. Stock counts and PC 07 are demo fixtures. Local product images are absent; category symbols are used. The interaction is vanilla JS and makes no API requests; CSP blocks connections and form submissions. No credentials, customer data, or runtime inventory files are included.
