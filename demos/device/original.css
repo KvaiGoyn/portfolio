@@ -255,7 +255,7 @@ html, body {
 }
 
 .cat-count::after {
-  content: ' в наличии';
+  content: ' в наличии';
   color: var(--text-m);
   font-weight: 400;
   opacity: 1;
