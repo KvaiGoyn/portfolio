@@ -105,6 +105,7 @@ document.addEventListener("click", (event) => {
     $("#details").showModal();
   }
 });
+$("#details .close").addEventListener("click", () => $("#details").close());
 $("#checkout").addEventListener("click", () => {
   if (!Object.values(quantities).some(Boolean)) return;
   $(".basket").hidden = true;
