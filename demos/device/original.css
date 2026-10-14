@@ -1,15 +1,7 @@
 :root {
-  --bg: #0c0c0c;
-  --bg2: #111111;
-  --surface: #1a1a1a;
-  --surface2: #222222;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-l: rgba(255, 255, 255, 0.1);
-  --gold: #d4a54a;
-  --gold-dim: rgba(212, 165, 74, 0.12);
-  --text: #9e9a92;
-  --text-h: #f5f2ed;
-  --text-m: #70706a;
+  --bg: #0c0c0c; --bg2: #111111; --surface: #1a1a1a; --surface2: #222222;
+  --border: rgba(255, 255, 255, 0.06); --border-l: rgba(255, 255, 255, 0.1); --gold: #d4a54a;
+  --gold-dim: rgba(212, 165, 74, 0.12); --text: #9e9a92; --text-h: #f5f2ed; --text-m: #70706a;
   --radius: 20px;
 
   font-family:
@@ -18,10 +10,7 @@
     system-ui,
     -apple-system,
     sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--text);
-  background: var(--bg);
+  font-size: 16px; line-height: 1.5; color: var(--text); background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: -0.01em;
@@ -35,14 +24,11 @@
 
 html,
 body {
-  margin: 0;
-  height: 100vh;
-  overflow: hidden;
+  margin: 0; height: 100vh; overflow: hidden;
 }
 
 ::selection {
-  background: var(--gold);
-  color: var(--bg);
+  background: var(--gold); color: var(--bg);
 }
 
 ::-webkit-scrollbar {
@@ -52,60 +38,39 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--surface2);
-  border-radius: 2px;
+  background: var(--surface2); border-radius: 2px;
 }
 
 /* Imported from Device Service: views/HomePage.vue */
 
 .page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 20px 24px;
+  max-width: 800px; margin: 0 auto; padding: 0 20px 24px;
 }
 
 /* ── Hero ── */
 .hero {
-  padding: 36px 0 32px;
-  position: relative;
+  padding: 36px 0 32px; position: relative;
 }
 
 .hero-accent {
-  width: 36px;
-  height: 2px;
-  border-radius: 1px;
-  background: var(--gold);
-  margin-bottom: 16px;
+  width: 36px; height: 2px; border-radius: 1px; background: var(--gold); margin-bottom: 16px;
 }
 
 .hero-title {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  line-height: 1;
+  margin: 0; display: flex; flex-direction: column; gap: 0; line-height: 1;
 }
 
 .hero-l1 {
-  font-size: 44px;
-  font-weight: 700;
-  color: var(--text-h);
-  letter-spacing: -0.04em;
-  line-height: 1;
+  font-size: 44px; font-weight: 700; color: var(--text-h); letter-spacing: -0.04em; line-height: 1;
 }
 
 .hero-l2 {
-  font-size: 28px;
-  font-weight: 500;
-  color: var(--text-m);
-  letter-spacing: -0.02em;
-  line-height: 1;
+  font-size: 28px; font-weight: 500; color: var(--text-m); letter-spacing: -0.02em; line-height: 1;
   margin-top: 2px;
 }
 
 .hero-divider {
-  width: 100%;
-  height: 1px;
+  width: 100%; height: 1px;
   background: linear-gradient(
     90deg,
     rgba(212, 165, 74, 0.3),
@@ -116,49 +81,33 @@ body {
 }
 
 .hero-sub {
-  font-size: 14px;
-  color: var(--text-m);
-  line-height: 1.4;
+  font-size: 14px; color: var(--text-m); line-height: 1.4;
 }
 
 .hero-sub-num {
-  color: var(--gold);
-  font-weight: 600;
+  color: var(--gold); font-weight: 600;
 }
 
 /* ── Grid ── */
 .grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
 }
 
 /* Imported from Device Service: components/DeviceCard.vue */
 
 .card {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  overflow: hidden;
-  transition: all 0.25s ease;
-  position: relative;
+  display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); overflow: hidden; transition: all 0.25s ease; position: relative;
 }
 
 .card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius);
-  pointer-events: none;
+  content: ""; position: absolute; inset: 0; border-radius: var(--radius); pointer-events: none;
   background: linear-gradient(
     135deg,
     rgba(212, 165, 74, 0.06) 0%,
     transparent 50%
   );
-  opacity: 0;
-  transition: opacity 0.25s ease;
+  opacity: 0; transition: opacity 0.25s ease;
 }
 
 .card:hover::after,
@@ -171,23 +120,12 @@ body {
 }
 
 .card-img {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg2);
-  overflow: hidden;
+  position: relative; width: 100%; aspect-ratio: 1; display: flex; align-items: center;
+  justify-content: center; background: var(--bg2); overflow: hidden;
 }
 
 .card-img img {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
-  display: block;
-  position: relative;
-  z-index: 1;
+  width: 80%; height: 80%; object-fit: contain; display: block; position: relative; z-index: 1;
   transition: transform 0.3s ease;
 }
 
@@ -196,54 +134,33 @@ body {
 }
 
 .card-body {
-  padding: 12px 14px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  position: relative;
+  padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; position: relative;
   z-index: 1;
 }
 
 .card-name {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-h);
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  display: -webkit-box;
+  margin: 0; font-size: 13px; font-weight: 600; color: var(--text-h); line-height: 1.3;
+  letter-spacing: -0.01em; display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .card-specs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+  display: flex; flex-wrap: wrap; gap: 4px;
 }
 
 .spec {
-  font-size: 10px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 6px;
-  background: var(--bg2);
-  color: var(--text-m);
-  line-height: 1.3;
+  font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 6px; background: var(--bg2);
+  color: var(--text-m); line-height: 1.3;
 }
 
 .card-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 2px;
+  display: flex; align-items: center; justify-content: space-between; margin-top: 2px;
 }
 
 .avail {
-  font-size: 11px;
-  font-weight: 500;
-  color: rgba(34, 197, 94, 0.7);
+  font-size: 11px; font-weight: 500; color: rgba(34, 197, 94, 0.7);
 }
 
 .avail.out {
@@ -251,26 +168,13 @@ body {
 }
 
 .qty {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 2px;
-  border: 1px solid rgba(212, 165, 74, 0.25);
-  border-radius: 10px;
-  background: var(--gold-dim);
+  display: flex; align-items: center; gap: 2px; padding: 2px;
+  border: 1px solid rgba(212, 165, 74, 0.25); border-radius: 10px; background: var(--gold-dim);
 }
 
 .qty-btn {
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--gold);
-  cursor: pointer;
+  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: none;
+  border-radius: 8px; background: transparent; color: var(--gold); cursor: pointer;
   transition: all 0.15s;
 }
 
@@ -283,14 +187,9 @@ body {
 }
 
 .qty-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
+  opacity: 0.3; cursor: not-allowed;
 }
 
 .qty-val {
-  min-width: 22px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--gold);
+  min-width: 22px; text-align: center; font-size: 14px; font-weight: 700; color: var(--gold);
 }

@@ -1,7 +1,6 @@
 html,
 body {
-  height: auto;
-  overflow: auto;
+  height: auto; overflow: auto;
 }
 body {
   padding-bottom: 20px;
@@ -16,60 +15,43 @@ body {
   font-size: 36px;
 }
 .filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;
 }
 button {
   font: inherit;
 }
 button:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 3px;
+  outline: 2px solid var(--gold); outline-offset: 3px;
 }
 .filters button,
 .primary {
-  border: 1px solid var(--border-l);
-  border-radius: 100px;
-  padding: 10px 15px;
-  background: var(--surface);
-  color: var(--text-h);
-  cursor: pointer;
+  border: 1px solid var(--border-l); border-radius: 100px; padding: 10px 15px;
+  background: var(--surface); color: var(--text-h); cursor: pointer;
 }
 .filters button[aria-pressed="true"],
 .primary {
-  border-color: var(--gold);
-  color: var(--gold);
+  border-color: var(--gold); color: var(--gold);
 }
 .primary:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+  opacity: 0.4; cursor: not-allowed;
 }
 .card-img {
-  aspect-ratio: 1.8;
-  border: 0;
-  cursor: pointer;
-  color: var(--text-h);
+  aspect-ratio: 1.8; border: 0; cursor: pointer; color: var(--text-h);
 }
 .grid {
   gap: 14px;
 }
 .basket {
-  margin-top: 22px;
-  border-top: 1px solid var(--border-l);
-  padding-top: 16px;
+  margin-top: 22px; border-top: 1px solid var(--border-l); padding-top: 16px;
 }
 h2 {
-  color: var(--text-h);
-  font-size: 19px;
+  color: var(--text-h); font-size: 19px;
 }
 .basket p {
   font-size: 13px;
 }
 .order-icon {
-  font-size: 40px;
-  color: var(--gold);
+  font-size: 40px; color: var(--gold);
 }
 #order {
   padding: 20px 0;
@@ -78,32 +60,20 @@ h2 {
   min-height: 44px;
 }
 dialog {
-  background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--border-l);
-  border-radius: 24px;
-  padding: 28px;
-  width: min(90%, 420px);
+  background: var(--surface); color: var(--text); border: 1px solid var(--border-l);
+  border-radius: 24px; padding: 28px; width: min(90%, 420px);
 }
 dialog::backdrop {
-  background: #000b;
-  backdrop-filter: blur(8px);
+  background: #000b; backdrop-filter: blur(8px);
 }
 .close {
-  float: right;
-  background: none;
-  border: 0;
-  color: var(--text-h);
-  font-size: 28px;
-  cursor: pointer;
+  float: right; background: none; border: 0; color: var(--text-h); font-size: 28px; cursor: pointer;
 }
 .card-bottom {
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-wrap: wrap; gap: 8px;
 }
 .qty-btn {
-  width: 32px;
-  height: 32px;
+  width: 32px; height: 32px;
 }
 @media (max-width: 420px) {
   .page {
@@ -122,25 +92,19 @@ dialog::backdrop {
     font-size: 10px;
   }
   .filters button {
-    font-size: 12px;
-    padding: 8px 10px;
+    font-size: 12px; padding: 8px 10px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    transition: none !important;
-    animation: none !important;
+    transition: none !important; animation: none !important;
   }
 }
 [hidden] {
   display: none !important;
 }
 #detail-image {
-  display: block;
-  width: min(100%, 260px);
-  height: 220px;
-  object-fit: contain;
-  margin: 0 auto 16px;
+  display: block; width: min(100%, 260px); height: 220px; object-fit: contain; margin: 0 auto 16px;
 }
